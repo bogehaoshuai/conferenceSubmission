@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.base.mapper.BaseInviteMapper">
+
+    <resultMap type="BaseInvite" id="BaseInviteResult">
+        <result property="inviteId"    column="invite_id"    />
+        <result property="conferenceId"    column="conference_id"    />
+        <result property="conferenceName"    column="conference_name"    />
+        <result property="chairId"    column="chair_id"    />
+        <result property="chairName"    column="chair_name"    />
+        <result property="pcId"    column="pc_id"    />
+        <result property="pcName"    column="pc_name"    />
+        <result property="pcEmail"    column="pc_email"    />
+        <result property="pcAffiliation"    column="pc_affiliation"    />
+        <result property="pcPlace"    column="pc_place"    />
+        <result property="inviteStatusCode"    column="invite_status_code"    />
+        <result property="inviteStatusName"    column="invite_status_name"    />
+        <result property="topicCode"    column="topic_code"    />
+        <result property="topicLabel"    column="topic_label"    />
+        <result property="topicValue"    column="topic_value"    />
+    </resultMap>
+
+    <sql id="selectBaseInviteVo">
+        select invite_id, conference_id, conference_name, chair_id, chair_name, pc_id, pc_name, pc_email, pc_affiliation, pc_place, invite_status_code, invite_status_name, topic_code, topic_label, topic_value from base_invite
+    </sql>
+
+    <select id="selectBaseInviteList" parameterType="BaseInvite" resultMap="BaseInviteResult">
+        <include refid="selectBaseInviteVo"/>
+        <where>
+            <if test="conferenceId != null "> and conference_id = #{conferenceId}</if>
+            <if test="conferenceName != null  and conferenceName != ''"> and conference_name like concat('%', #{conferenceName}, '%')</if>
+            <if test="chairId != null "> and chair_id = #{chairId}</if>
+            <if test="chairName != null  and chairName != ''"> and chair_name like concat('%', #{chairName}, '%')</if>
+            <if test="pcId != null "> and pc_id = #{pcId}</if>
+            <if test="pcName != null  and pcName != ''"> and pc_name like concat('%', #{pcName}, '%')</if>
+            <if test="pcEmail != null  and pcEmail != ''"> and pc_email = #{pcEmail}</if>
+            <if test="pcAffiliation != null  and pcAffiliation != ''"> and pc_affiliation = #{pcAffiliation}</if>
+            <if test="pcPlace != null  and pcPlace != ''"> and pc_place = #{pcPlace}</if>
+            <if test="inviteStatusCode != null "> and invite_status_code = #{inviteStatusCode}</if>
+            <if test="inviteStatusName != null  and inviteStatusName != ''"> and invite_status_name like concat('%', #{inviteStatusName}, '%')</if>
+            <if test="topicCode != null  and topicCode != ''"> and topic_code = #{topicCode}</if>
+            <if test="topicLabel != null  and topicLabel != ''"> and topic_label = #{topicLabel}</if>
+            <if test="topicValue != null  and topicValue != ''"> and topic_value = #{topicValue}</if>
+        </where>
+    </select>
+
+    <select id="selectInviteIdList" parameterType="BaseInvite" resultMap="BaseInviteResult">
+        select pc_id from base_invite
+        <where>
+            <if test="conferenceId != null "> and conference_id = #{conferenceId}</if>
+            <if test="conferenceName != null  and conferenceName != ''"> and conference_name like concat('%', #{conferenceName}, '%')</if>
+            <if test="chairId != null "> and chair_id = #{chairId}</if>
+            <if test="chairName != null  and chairName != ''"> and chair_name like concat('%', #{chairName}, '%')</if>
+            <if test="pcId != null "> and pc_id = #{pcId}</if>
+            <if test="pcName != null  and pcName != ''"> and pc_name like concat('%', #{pcName}, '%')</if>
+            <if test="pcEmail != null  and pcEmail != ''"> and pc_email = #{pcEmail}</if>
+            <if test="pcAffiliation != null  and pcAffiliation != ''"> and pc_affiliation = #{pcAffiliation}</if>
+            <if test="pcPlace != null  and pcPlace != ''"> and pc_place = #{pcPlace}</if>
+            <if test="inviteStatusCode != null "> and invite_status_code = #{inviteStatusCode}</if>
+            <if test="inviteStatusName != null  and inviteStatusName != ''"> and invite_status_name like concat('%', #{inviteStatusName}, '%')</if>
+            <if test="topicCode != null  and topicCode != ''"> and topic_code = #{topicCode}</if>
+            <if test="topicLabel != null  and topicLabel != ''"> and topic_label = #{topicLabel}</if>
+            <if test="topicValue != null  and topicValue != ''"> and topic_value = #{topicValue}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseInviteByInviteId" parameterType="Long" resultMap="BaseInviteResult">
+        <include refid="selectBaseInviteVo"/>
+        where invite_id = #{inviteId}
+    </select>
+
+
+    <insert id="insertBaseInvite" parameterType="BaseInvite" useGeneratedKeys="true" keyProperty="inviteId">
+        insert into base_invite
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="conferenceId != null">conference_id,</if>
+            <if test="conferenceName != null">conference_name,</if>
+            <if test="chairId != null">chair_id,</if>
+            <if test="chairName != null">chair_name,</if>
+            <if test="pcId != null">pc_id,</if>
+            <if test="pcName != null">pc_name,</if>
+            <if test="pcEmail != null">pc_email,</if>
+            <if test="pcAffiliation != null">pc_affiliation,</if>
+            <if test="pcPlace != null">pc_place,</if>
+            <if test="inviteStatusCode != null">invite_status_code,</if>
+            <if test="inviteStatusName != null">invite_status_name,</if>
+            <if test="topicCode != null">topic_code,</if>
+            <if test="topicLabel != null">topic_label,</if>
+            <if test="topicValue != null">topic_value,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="conferenceId != null">#{conferenceId},</if>
+            <if test="conferenceName != null">#{conferenceName},</if>
+            <if test="chairId != null">#{chairId},</if>
+            <if test="chairName != null">#{chairName},</if>
+            <if test="pcId != null">#{pcId},</if>
+            <if test="pcName != null">#{pcName},</if>
+            <if test="pcEmail != null">#{pcEmail},</if>
+            <if test="pcAffiliation != null">#{pcAffiliation},</if>
+            <if test="pcPlace != null">#{pcPlace},</if>
+            <if test="inviteStatusCode != null">#{inviteStatusCode},</if>
+            <if test="inviteStatusName != null">#{inviteStatusName},</if>
+            <if test="topicCode != null">#{topicCode},</if>
+            <if test="topicLabel != null">#{topicLabel},</if>
+            <if test="topicValue != null">#{topicValue},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBaseInvite" parameterType="BaseInvite">
+        update base_invite
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="conferenceId != null">conference_id = #{conferenceId},</if>
+            <if test="conferenceName != null">conference_name = #{conferenceName},</if>
+            <if test="chairId != null">chair_id = #{chairId},</if>
+            <if test="chairName != null">chair_name = #{chairName},</if>
+            <if test="pcId != null">pc_id = #{pcId},</if>
+            <if test="pcName != null">pc_name = #{pcName},</if>
+            <if test="pcEmail != null">pc_email = #{pcEmail},</if>
+            <if test="pcAffiliation != null">pc_affiliation = #{pcAffiliation},</if>
+            <if test="pcPlace != null">pc_place = #{pcPlace},</if>
+            <if test="inviteStatusCode != null">invite_status_code = #{inviteStatusCode},</if>
+            <if test="inviteStatusName != null">invite_status_name = #{inviteStatusName},</if>
+            <if test="topicCode != null">topic_code = #{topicCode},</if>
+            <if test="topicLabel != null">topic_label = #{topicLabel},</if>
+            <if test="topicValue != null">topic_value = #{topicValue},</if>
+        </trim>
+        where invite_id = #{inviteId}
+    </update>
+
+    <delete id="deleteBaseInviteByInviteId" parameterType="Long">
+        delete from base_invite where invite_id = #{inviteId}
+    </delete>
+
+    <delete id="deleteBaseInviteByInviteIds" parameterType="String">
+        delete from base_invite where invite_id in
+        <foreach item="inviteId" collection="array" open="(" separator="," close=")">
+            #{inviteId}
+        </foreach>
+    </delete>
+</mapper>

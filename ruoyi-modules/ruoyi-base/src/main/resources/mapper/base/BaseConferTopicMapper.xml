@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.base.mapper.BaseConferTopicMapper">
+    
+    <resultMap type="BaseConferTopic" id="BaseConferTopicResult">
+        <result property="topicCode"    column="topic_code"    />
+        <result property="topicLabel"    column="topic_label"    />
+        <result property="topicValue"    column="topic_value"    />
+        <result property="conferenceId"    column="conference_id"    />
+        <result property="conferenceName"    column="conference_name"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectBaseConferTopicVo">
+        select topic_code, topic_label, topic_value, conference_id, conference_name, status from base_confer_topic
+    </sql>
+
+    <select id="selectBaseConferTopicList" parameterType="BaseConferTopic" resultMap="BaseConferTopicResult">
+        <include refid="selectBaseConferTopicVo"/>
+        <where>  
+            <if test="topicLabel != null  and topicLabel != ''"> and topic_label like concat('%', #{topicLabel}, '%')</if>
+            <if test="topicValue != null  and topicValue != ''"> and topic_value like concat('%', #{topicValue}, '%')</if>
+            <if test="conferenceId != null "> and conference_id = #{conferenceId}</if>
+            <if test="conferenceName != null  and conferenceName != ''"> and conference_name like concat('%', #{conferenceName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseConferTopicByTopicCode" parameterType="Long" resultMap="BaseConferTopicResult">
+        <include refid="selectBaseConferTopicVo"/>
+        where topic_code = #{topicCode}
+    </select>
+        
+    <insert id="insertBaseConferTopic" parameterType="BaseConferTopic" useGeneratedKeys="true" keyProperty="topicCode">
+        insert into base_confer_topic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="topicLabel != null">topic_label,</if>
+            <if test="topicValue != null">topic_value,</if>
+            <if test="conferenceId != null">conference_id,</if>
+            <if test="conferenceName != null">conference_name,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="topicLabel != null">#{topicLabel},</if>
+            <if test="topicValue != null">#{topicValue},</if>
+            <if test="conferenceId != null">#{conferenceId},</if>
+            <if test="conferenceName != null">#{conferenceName},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseConferTopic" parameterType="BaseConferTopic">
+        update base_confer_topic
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="topicLabel != null">topic_label = #{topicLabel},</if>
+            <if test="topicValue != null">topic_value = #{topicValue},</if>
+            <if test="conferenceId != null">conference_id = #{conferenceId},</if>
+            <if test="conferenceName != null">conference_name = #{conferenceName},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where topic_code = #{topicCode}
+    </update>
+
+    <delete id="deleteBaseConferTopicByTopicCode" parameterType="Long">
+        delete from base_confer_topic where topic_code = #{topicCode}
+    </delete>
+
+    <delete id="deleteBaseConferTopicByTopicCodes" parameterType="String">
+        delete from base_confer_topic where topic_code in 
+        <foreach item="topicCode" collection="array" open="(" separator="," close=")">
+            #{topicCode}
+        </foreach>
+    </delete>
+</mapper>

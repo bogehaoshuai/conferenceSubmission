@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.contribute.mapper.BaseAuthorMapper">
+    
+    <resultMap type="BaseAuthor" id="BaseAuthorResult">
+        <result property="authorId"    column="author_id"    />
+        <result property="authorName"    column="author_name"    />
+        <result property="authorAffiliation"    column="author_affiliation"    />
+        <result property="authorPlace"    column="author_place"    />
+        <result property="authorEmail"    column="author_email"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="articleName"    column="article_name"    />
+        <result property="orderNum"    column="order_num"    />
+    </resultMap>
+
+    <sql id="selectBaseAuthorVo">
+        select author_id, author_name, author_affiliation, author_place, author_email, article_id, article_name, order_num from base_author
+    </sql>
+
+    <select id="selectBaseAuthorList" parameterType="BaseAuthor" resultMap="BaseAuthorResult">
+        <include refid="selectBaseAuthorVo"/>
+        <where>  
+            <if test="authorName != null  and authorName != ''"> and author_name like concat('%', #{authorName}, '%')</if>
+            <if test="authorAffiliation != null  and authorAffiliation != ''"> and author_affiliation = #{authorAffiliation}</if>
+            <if test="authorPlace != null  and authorPlace != ''"> and author_place = #{authorPlace}</if>
+            <if test="authorEmail != null  and authorEmail != ''"> and author_email = #{authorEmail}</if>
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="articleName != null  and articleName != ''"> and article_name like concat('%', #{articleName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseAuthorByAuthorId" parameterType="Long" resultMap="BaseAuthorResult">
+        <include refid="selectBaseAuthorVo"/>
+        where author_id = #{authorId}
+    </select>
+        
+    <insert id="insertBaseAuthor" parameterType="BaseAuthor" useGeneratedKeys="true" keyProperty="authorId">
+        insert into base_author
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="authorName != null">author_name,</if>
+            <if test="authorAffiliation != null">author_affiliation,</if>
+            <if test="authorPlace != null">author_place,</if>
+            <if test="authorEmail != null">author_email,</if>
+            <if test="articleId != null">article_id,</if>
+            <if test="articleName != null">article_name,</if>
+            <if test="orderNum != null">order_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="authorName != null">#{authorName},</if>
+            <if test="authorAffiliation != null">#{authorAffiliation},</if>
+            <if test="authorPlace != null">#{authorPlace},</if>
+            <if test="authorEmail != null">#{authorEmail},</if>
+            <if test="articleId != null">#{articleId},</if>
+            <if test="articleName != null">#{articleName},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseAuthor" parameterType="BaseAuthor">
+        update base_author
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="authorName != null">author_name = #{authorName},</if>
+            <if test="authorAffiliation != null">author_affiliation = #{authorAffiliation},</if>
+            <if test="authorPlace != null">author_place = #{authorPlace},</if>
+            <if test="authorEmail != null">author_email = #{authorEmail},</if>
+            <if test="articleId != null">article_id = #{articleId},</if>
+            <if test="articleName != null">article_name = #{articleName},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+        </trim>
+        where author_id = #{authorId}
+    </update>
+
+    <delete id="deleteBaseAuthorByAuthorId" parameterType="Long">
+        delete from base_author where author_id = #{authorId}
+    </delete>
+
+    <delete id="deleteBaseAuthorByAuthorIds" parameterType="String">
+        delete from base_author where author_id in 
+        <foreach item="authorId" collection="array" open="(" separator="," close=")">
+            #{authorId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.contribute.mapper.BaseArticleMapper">
+
+    <resultMap type="BaseArticle" id="BaseArticleResult">
+        <result property="articleId"    column="article_id"    />
+        <result property="articleName"    column="article_name"    />
+        <result property="articleAbstract"    column="article_abstract"    />
+        <result property="article"    column="article"    />
+        <result property="conferenceId"    column="conference_id"    />
+        <result property="conferenceName"    column="conference_name"    />
+        <result property="articleStatusCode"    column="article_status_code"    />
+        <result property="articleStatusName"    column="article_status_name"    />
+        <result property="creatorId"    column="creator_id"    />
+        <result property="creatorName"    column="creator_name"    />
+        <result property="topicCode"    column="topic_code"    />
+        <result property="topicLabel"    column="topic_label"    />
+        <result property="topicValue"    column="topic_value"    />
+    </resultMap>
+
+    <sql id="selectBaseArticleVo">
+        select article_id, article_name, article_abstract, article, conference_id, conference_name, article_status_code, article_status_name, creator_id, creator_name, topic_code, topic_label, topic_value from base_article
+    </sql>
+
+    <select id="selectBaseArticleList" parameterType="BaseArticle" resultMap="BaseArticleResult">
+        <include refid="selectBaseArticleVo"/>
+        <where>
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="articleName != null  and articleName != ''"> and article_name like concat('%', #{articleName}, '%')</if>
+            <if test="articleAbstract != null  and articleAbstract != ''"> and article_abstract = #{articleAbstract}</if>
+            <if test="article != null  and article != ''"> and article = #{article}</if>
+            <if test="conferenceId != null "> and conference_id = #{conferenceId}</if>
+            <if test="conferenceName != null  and conferenceName != ''"> and conference_name like concat('%', #{conferenceName}, '%')</if>
+            <if test="articleStatusCode != null "> and article_status_code = #{articleStatusCode}</if>
+            <if test="articleStatusName != null  and articleStatusName != ''"> and article_status_name like concat('%', #{articleStatusName}, '%')</if>
+            <if test="creatorId != null "> and creator_id = #{creatorId}</if>
+            <if test="creatorName != null  and creatorName != ''"> and creator_name like concat('%', #{creatorName}, '%')</if>
+            <if test="topicCode != null  and topicCode != ''"> and topic_code = #{topicCode}</if>
+            <if test="topicLabel != null  and topicLabel != ''"> and topic_label = #{topicLabel}</if>
+            <if test="topicValue != null  and topicValue != ''"> and topic_value = #{topicValue}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseArticleByArticleId" parameterType="Long" resultMap="BaseArticleResult">
+        <include refid="selectBaseArticleVo"/>
+        where article_id = #{articleId}
+    </select>
+
+
+    <insert id="insertBaseArticle" parameterType="BaseArticle">
+        insert into base_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">article_id,</if>
+            <if test="articleName != null and articleName != ''">article_name,</if>
+            <if test="articleAbstract != null and articleAbstract != ''">article_abstract,</if>
+            <if test="article != null and article != ''">article,</if>
+            <if test="conferenceId != null">conference_id,</if>
+            <if test="conferenceName != null and conferenceName != ''">conference_name,</if>
+            <if test="articleStatusCode != null">article_status_code,</if>
+            <if test="articleStatusName != null and articleStatusName != ''">article_status_name,</if>
+            <if test="creatorId != null">creator_id,</if>
+            <if test="creatorName != null">creator_name,</if>
+            <if test="topicCode != null">topic_code,</if>
+            <if test="topicLabel != null">topic_label,</if>
+            <if test="topicValue != null">topic_value,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">#{articleId},</if>
+            <if test="articleName != null and articleName != ''">#{articleName},</if>
+            <if test="articleAbstract != null and articleAbstract != ''">#{articleAbstract},</if>
+            <if test="article != null and article != ''">#{article},</if>
+            <if test="conferenceId != null">#{conferenceId},</if>
+            <if test="conferenceName != null and conferenceName != ''">#{conferenceName},</if>
+            <if test="articleStatusCode != null">#{articleStatusCode},</if>
+            <if test="articleStatusName != null and articleStatusName != ''">#{articleStatusName},</if>
+            <if test="creatorId != null">#{creatorId},</if>
+            <if test="creatorName != null">#{creatorName},</if>
+            <if test="topicCode != null">#{topicCode},</if>
+            <if test="topicLabel != null">#{topicLabel},</if>
+            <if test="topicValue != null">#{topicValue},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBaseArticle" parameterType="BaseArticle">
+        update base_article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleName != null and articleName != ''">article_name = #{articleName},</if>
+            <if test="articleAbstract != null and articleAbstract != ''">article_abstract = #{articleAbstract},</if>
+            <if test="article != null and article != ''">article = #{article},</if>
+            <if test="conferenceId != null">conference_id = #{conferenceId},</if>
+            <if test="conferenceName != null and conferenceName != ''">conference_name = #{conferenceName},</if>
+            <if test="articleStatusCode != null">article_status_code = #{articleStatusCode},</if>
+            <if test="articleStatusName != null and articleStatusName != ''">article_status_name = #{articleStatusName},</if>
+            <if test="creatorId != null">creator_id = #{creatorId},</if>
+            <if test="creatorName != null">creator_name = #{creatorName},</if>
+            <if test="topicCode != null">topic_code = #{topicCode},</if>
+            <if test="topicLabel != null">topic_label = #{topicLabel},</if>
+            <if test="topicValue != null">topic_value = #{topicValue},</if>
+        </trim>
+        where article_id = #{articleId}
+    </update>
+
+    <delete id="deleteBaseArticleByArticleId" parameterType="Long">
+        delete from base_article where article_id = #{articleId}
+    </delete>
+
+    <delete id="deleteBaseArticleByArticleIds" parameterType="String">
+        delete from base_article where article_id in
+        <foreach item="articleId" collection="array" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+    </delete>
+</mapper>

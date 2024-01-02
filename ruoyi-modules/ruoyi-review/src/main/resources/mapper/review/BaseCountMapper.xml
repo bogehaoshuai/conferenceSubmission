@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.review.mapper.BaseCountMapper">
+    
+    <resultMap type="BaseCount" id="BaseCountResult">
+        <result property="countId"    column="count_id"    />
+        <result property="pcId"    column="pcId"    />
+        <result property="pcName"    column="pcName"    />
+        <result property="conferenceId"    column="conferenceId"    />
+        <result property="conferenceName"    column="conferenceName"    />
+        <result property="count"    column="count"    />
+    </resultMap>
+
+    <sql id="selectBaseCountVo">
+        select count_id, pcId, pcName, conferenceId, conferenceName, count from base_count
+    </sql>
+
+    <select id="selectBaseCountList" parameterType="BaseCount" resultMap="BaseCountResult">
+        <include refid="selectBaseCountVo"/>
+        <where>  
+            <if test="pcId != null "> and pcId = #{pcId}</if>
+            <if test="pcName != null  and pcName != ''"> and pcName like concat('%', #{pcName}, '%')</if>
+            <if test="conferenceId != null "> and conferenceId = #{conferenceId}</if>
+            <if test="conferenceName != null  and conferenceName != ''"> and conferenceName like concat('%', #{conferenceName}, '%')</if>
+            <if test="count != null "> and count = #{count}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseCountByCountId" parameterType="Long" resultMap="BaseCountResult">
+        <include refid="selectBaseCountVo"/>
+        where count_id = #{countId}
+    </select>
+        
+    <insert id="insertBaseCount" parameterType="BaseCount" useGeneratedKeys="true" keyProperty="countId">
+        insert into base_count
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pcId != null">pcId,</if>
+            <if test="pcName != null">pcName,</if>
+            <if test="conferenceId != null">conferenceId,</if>
+            <if test="conferenceName != null">conferenceName,</if>
+            <if test="count != null">count,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pcId != null">#{pcId},</if>
+            <if test="pcName != null">#{pcName},</if>
+            <if test="conferenceId != null">#{conferenceId},</if>
+            <if test="conferenceName != null">#{conferenceName},</if>
+            <if test="count != null">#{count},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseCount" parameterType="BaseCount">
+        update base_count
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pcId != null">pcId = #{pcId},</if>
+            <if test="pcName != null">pcName = #{pcName},</if>
+            <if test="conferenceId != null">conferenceId = #{conferenceId},</if>
+            <if test="conferenceName != null">conferenceName = #{conferenceName},</if>
+            <if test="count != null">count = #{count},</if>
+        </trim>
+        where count_id = #{countId}
+    </update>
+
+    <delete id="deleteBaseCountByCountId" parameterType="Long">
+        delete from base_count where count_id = #{countId}
+    </delete>
+
+    <delete id="deleteBaseCountByCountIds" parameterType="String">
+        delete from base_count where count_id in 
+        <foreach item="countId" collection="array" open="(" separator="," close=")">
+            #{countId}
+        </foreach>
+    </delete>
+</mapper>

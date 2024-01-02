@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.review.mapper.BaseAllocationMapper">
+    
+    <resultMap type="BaseAllocation" id="BaseAllocationResult">
+        <result property="allocationId"    column="allocation_id"    />
+        <result property="pcId"    column="pc_id"    />
+        <result property="pcName"    column="pc_name"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="articleName"    column="article_name"    />
+        <result property="reviewStatusCode"    column="review_status_code"    />
+        <result property="reviewStatusName"    column="review_status_name"    />
+        <result property="comment"    column="comment"    />
+        <result property="confidenceCode"    column="confidence_code"    />
+        <result property="confidenceName"    column="confidence_name"    />
+        <result property="scoreCode"    column="score_code"    />
+        <result property="scoreName"    column="score_name"    />
+    </resultMap>
+
+    <sql id="selectBaseAllocationVo">
+        select allocation_id, pc_id, pc_name, article_id, article_name, review_status_code, review_status_name, comment, confidence_code, confidence_name, score_code, score_name from base_allocation
+    </sql>
+
+    <select id="selectBaseAllocationList" parameterType="BaseAllocation" resultMap="BaseAllocationResult">
+        <include refid="selectBaseAllocationVo"/>
+        <where>  
+            <if test="pcId != null "> and pc_id = #{pcId}</if>
+            <if test="pcName != null  and pcName != ''"> and pc_name like concat('%', #{pcName}, '%')</if>
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="articleName != null  and articleName != ''"> and article_name like concat('%', #{articleName}, '%')</if>
+            <if test="reviewStatusCode != null "> and review_status_code = #{reviewStatusCode}</if>
+            <if test="reviewStatusName != null  and reviewStatusName != ''"> and review_status_name like concat('%', #{reviewStatusName}, '%')</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="confidenceCode != null "> and confidence_code = #{confidenceCode}</if>
+            <if test="confidenceName != null  and confidenceName != ''"> and confidence_name like concat('%', #{confidenceName}, '%')</if>
+            <if test="scoreCode != null "> and score_code = #{scoreCode}</if>
+            <if test="scoreName != null  and scoreName != ''"> and score_name like concat('%', #{scoreName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseAllocationByAllocationId" parameterType="Long" resultMap="BaseAllocationResult">
+        <include refid="selectBaseAllocationVo"/>
+        where allocation_id = #{allocationId}
+    </select>
+        
+    <insert id="insertBaseAllocation" parameterType="BaseAllocation" useGeneratedKeys="true" keyProperty="allocationId">
+        insert into base_allocation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pcId != null">pc_id,</if>
+            <if test="pcName != null">pc_name,</if>
+            <if test="articleId != null">article_id,</if>
+            <if test="articleName != null">article_name,</if>
+            <if test="reviewStatusCode != null">review_status_code,</if>
+            <if test="reviewStatusName != null">review_status_name,</if>
+            <if test="comment != null">comment,</if>
+            <if test="confidenceCode != null">confidence_code,</if>
+            <if test="confidenceName != null">confidence_name,</if>
+            <if test="scoreCode != null">score_code,</if>
+            <if test="scoreName != null">score_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pcId != null">#{pcId},</if>
+            <if test="pcName != null">#{pcName},</if>
+            <if test="articleId != null">#{articleId},</if>
+            <if test="articleName != null">#{articleName},</if>
+            <if test="reviewStatusCode != null">#{reviewStatusCode},</if>
+            <if test="reviewStatusName != null">#{reviewStatusName},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="confidenceCode != null">#{confidenceCode},</if>
+            <if test="confidenceName != null">#{confidenceName},</if>
+            <if test="scoreCode != null">#{scoreCode},</if>
+            <if test="scoreName != null">#{scoreName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseAllocation" parameterType="BaseAllocation">
+        update base_allocation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pcId != null">pc_id = #{pcId},</if>
+            <if test="pcName != null">pc_name = #{pcName},</if>
+            <if test="articleId != null">article_id = #{articleId},</if>
+            <if test="articleName != null">article_name = #{articleName},</if>
+            <if test="reviewStatusCode != null">review_status_code = #{reviewStatusCode},</if>
+            <if test="reviewStatusName != null">review_status_name = #{reviewStatusName},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="confidenceCode != null">confidence_code = #{confidenceCode},</if>
+            <if test="confidenceName != null">confidence_name = #{confidenceName},</if>
+            <if test="scoreCode != null">score_code = #{scoreCode},</if>
+            <if test="scoreName != null">score_name = #{scoreName},</if>
+        </trim>
+        where allocation_id = #{allocationId}
+    </update>
+
+    <update id="updateBaseAllocationByArticleId" parameterType="BaseAllocation">
+        update base_allocation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pcId != null">pc_id = #{pcId},</if>
+            <if test="pcName != null">pc_name = #{pcName},</if>
+            <if test="articleId != null">article_id = #{articleId},</if>
+            <if test="articleName != null">article_name = #{articleName},</if>
+            <if test="reviewStatusCode != null">review_status_code = #{reviewStatusCode},</if>
+            <if test="reviewStatusName != null">review_status_name = #{reviewStatusName},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="confidenceCode != null">confidence_code = #{confidenceCode},</if>
+            <if test="confidenceName != null">confidence_name = #{confidenceName},</if>
+            <if test="scoreCode != null">score_code = #{scoreCode},</if>
+            <if test="scoreName != null">score_name = #{scoreName},</if>
+        </trim>
+        where article_id = #{articleId}
+    </update>
+
+    <delete id="deleteBaseAllocationByAllocationId" parameterType="Long">
+        delete from base_allocation where allocation_id = #{allocationId}
+    </delete>
+
+    <delete id="deleteBaseAllocationByAllocationIds" parameterType="String">
+        delete from base_allocation where allocation_id in 
+        <foreach item="allocationId" collection="array" open="(" separator="," close=")">
+            #{allocationId}
+        </foreach>
+    </delete>
+</mapper>

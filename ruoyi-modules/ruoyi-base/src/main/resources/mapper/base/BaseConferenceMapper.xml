@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.base.mapper.BaseConferenceMapper">
+
+    <resultMap type="BaseConference" id="BaseConferenceResult">
+        <result property="conferenceId"    column="conference_id"    />
+        <result property="conferenceName"    column="conference_name"    />
+        <result property="conferenceNickname"    column="conference_nickname"    />
+        <result property="holdDate"    column="hold_date"    />
+        <result property="place"    column="place"    />
+        <result property="deadlineDate"    column="deadline_date"    />
+        <result property="resultDate"    column="result_date"    />
+        <result property="chairId"    column="chair_id"    />
+        <result property="chairName"    column="chair_name"    />
+        <result property="conferenceStatusCode"    column="conference_status_code"    />
+        <result property="conferenceStatusName"    column="conference_status_name"    />
+    </resultMap>
+
+    <sql id="selectBaseConferenceVo">
+        select conference_id, conference_name, conference_nickname, hold_date, place, deadline_date, result_date, chair_id, chair_name, conference_status_code, conference_status_name from base_conference
+    </sql>
+
+    <select id="selectBaseConferenceList" parameterType="BaseConference" resultMap="BaseConferenceResult">
+        <include refid="selectBaseConferenceVo"/>
+        <where>
+            <if test="conferenceId != null "> and conference_id = #{conferenceId}</if>
+            <if test="conferenceName != null  and conferenceName != ''"> and conference_name like concat('%', #{conferenceName}, '%')</if>
+            <if test="conferenceNickname != null  and conferenceNickname != ''"> and conference_nickname like concat('%', #{conferenceNickname}, '%')</if>
+            <if test="params.beginHoldDate != null and params.beginHoldDate != '' and params.endHoldDate != null and params.endHoldDate != ''"> and hold_date between #{params.beginHoldDate} and #{params.endHoldDate}</if>
+            <if test="place != null  and place != ''"> and place like concat('%', #{place}, '%')</if>
+            <if test="params.beginDeadlineDate != null and params.beginDeadlineDate != '' and params.endDeadlineDate != null and params.endDeadlineDate != ''"> and deadline_date between #{params.beginDeadlineDate} and #{params.endDeadlineDate}</if>
+            <if test="params.beginResultDate != null and params.beginResultDate != '' and params.endResultDate != null and params.endResultDate != ''"> and result_date between #{params.beginResultDate} and #{params.endResultDate}</if>
+            <if test="chairId != null "> and chair_id = #{chairId}</if>
+            <if test="chairName != null  and chairName != ''"> and chair_name like concat('%', #{chairName}, '%')</if>
+            <if test="conferenceStatusCode != null "> and conference_status_code = #{conferenceStatusCode}</if>
+            <if test="conferenceStatusName != null  and conferenceStatusName != ''"> and conference_status_name like concat('%', #{conferenceStatusName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectBaseArticleConferenceList" parameterType="BaseConference" resultMap="BaseConferenceResult">
+        <include refid="selectBaseConferenceVo"/>
+        <where>
+            <if test="conferenceId != null "> and conference_id = #{conferenceId}</if>
+            <if test="conferenceName != null  and conferenceName != ''"> and conference_name like concat('%', #{conferenceName}, '%')</if>
+            <if test="conferenceNickname != null  and conferenceNickname != ''"> and conference_nickname like concat('%', #{conferenceNickname}, '%')</if>
+            <if test="params.beginHoldDate != null and params.beginHoldDate != '' and params.endHoldDate != null and params.endHoldDate != ''"> and hold_date between #{params.beginHoldDate} and #{params.endHoldDate}</if>
+            <if test="place != null  and place != ''"> and place like concat('%', #{place}, '%')</if>
+            <if test="params.beginDeadlineDate != null and params.beginDeadlineDate != '' and params.endDeadlineDate != null and params.endDeadlineDate != ''"> and deadline_date between #{params.beginDeadlineDate} and #{params.endDeadlineDate}</if>
+            <if test="params.beginResultDate != null and params.beginResultDate != '' and params.endResultDate != null and params.endResultDate != ''"> and result_date between #{params.beginResultDate} and #{params.endResultDate}</if>
+            <if test="chairId != null "> and chair_id != #{chairId}</if>
+            <if test="chairName != null  and chairName != ''"> and chair_name like concat('%', #{chairName}, '%')</if>
+            <if test="conferenceStatusCode != null "> and conference_status_code = #{conferenceStatusCode}</if>
+            <if test="conferenceStatusName != null  and conferenceStatusName != ''"> and conference_status_name like concat('%', #{conferenceStatusName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectBaseConferenceByConferenceId" parameterType="Long" resultMap="BaseConferenceResult">
+        <include refid="selectBaseConferenceVo"/>
+        where conference_id = #{conferenceId}
+    </select>
+
+    <insert id="insertBaseConference" parameterType="BaseConference">
+        insert into base_conference
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="conferenceId != null">conference_id,</if>
+            <if test="conferenceName != null">conference_name,</if>
+            <if test="conferenceNickname != null">conference_nickname,</if>
+            <if test="holdDate != null">hold_date,</if>
+            <if test="place != null">place,</if>
+            <if test="deadlineDate != null">deadline_date,</if>
+            <if test="resultDate != null">result_date,</if>
+            <if test="chairId != null">chair_id,</if>
+            <if test="chairName != null">chair_name,</if>
+            <if test="conferenceStatusCode != null">conference_status_code,</if>
+            <if test="conferenceStatusName != null">conference_status_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="conferenceId != null">#{conferenceId},</if>
+            <if test="conferenceName != null">#{conferenceName},</if>
+            <if test="conferenceNickname != null">#{conferenceNickname},</if>
+            <if test="holdDate != null">#{holdDate},</if>
+            <if test="place != null">#{place},</if>
+            <if test="deadlineDate != null">#{deadlineDate},</if>
+            <if test="resultDate != null">#{resultDate},</if>
+            <if test="chairId != null">#{chairId},</if>
+            <if test="chairName != null">#{chairName},</if>
+            <if test="conferenceStatusCode != null">#{conferenceStatusCode},</if>
+            <if test="conferenceStatusName != null">#{conferenceStatusName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBaseConference" parameterType="BaseConference">
+        update base_conference
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="conferenceName != null">conference_name = #{conferenceName},</if>
+            <if test="conferenceNickname != null">conference_nickname = #{conferenceNickname},</if>
+            <if test="holdDate != null">hold_date = #{holdDate},</if>
+            <if test="place != null">place = #{place},</if>
+            <if test="deadlineDate != null">deadline_date = #{deadlineDate},</if>
+            <if test="resultDate != null">result_date = #{resultDate},</if>
+            <if test="chairId != null">chair_id = #{chairId},</if>
+            <if test="chairName != null">chair_name = #{chairName},</if>
+            <if test="conferenceStatusCode != null">conference_status_code = #{conferenceStatusCode},</if>
+            <if test="conferenceStatusName != null">conference_status_name = #{conferenceStatusName},</if>
+        </trim>
+        where conference_id = #{conferenceId}
+    </update>
+
+    <delete id="deleteBaseConferenceByConferenceId" parameterType="Long">
+        delete from base_conference where conference_id = #{conferenceId}
+    </delete>
+
+    <delete id="deleteBaseConferenceByConferenceIds" parameterType="String">
+        delete from base_conference where conference_id in
+        <foreach item="conferenceId" collection="array" open="(" separator="," close=")">
+            #{conferenceId}
+        </foreach>
+    </delete>
+</mapper>

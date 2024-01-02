@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.review.mapper.BaseRebuttalMapper">
+    
+    <resultMap type="BaseRebuttal" id="BaseRebuttalResult">
+        <result property="rebuttalId"    column="rebuttal_id"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="articleName"    column="article_name"    />
+        <result property="acceptCode"    column="accept_code"    />
+        <result property="acceptLabel"    column="accept_label"    />
+        <result property="rebuttalMessage"    column="rebuttal_message"    />
+    </resultMap>
+
+    <sql id="selectBaseRebuttalVo">
+        select rebuttal_id, article_id, article_name, accept_code, accept_label, rebuttal_message from base_rebuttal
+    </sql>
+
+    <select id="selectBaseRebuttalList" parameterType="BaseRebuttal" resultMap="BaseRebuttalResult">
+        <include refid="selectBaseRebuttalVo"/>
+        <where>  
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="articleName != null  and articleName != ''"> and article_name like concat('%', #{articleName}, '%')</if>
+            <if test="acceptCode != null "> and accept_code = #{acceptCode}</if>
+            <if test="acceptLabel != null  and acceptLabel != ''"> and accept_label = #{acceptLabel}</if>
+            <if test="rebuttalMessage != null  and rebuttalMessage != ''"> and rebuttal_message = #{rebuttalMessage}</if>
+        </where>
+    </select>
+    
+    <select id="selectBaseRebuttalByRebuttalId" parameterType="Long" resultMap="BaseRebuttalResult">
+        <include refid="selectBaseRebuttalVo"/>
+        where rebuttal_id = #{rebuttalId}
+    </select>
+
+    <select id="selectBaseRebuttalByArticleId" parameterType="Long" resultMap="BaseRebuttalResult">
+        <include refid="selectBaseRebuttalVo"/>
+        where article_id = #{articleId}
+    </select>
+        
+    <insert id="insertBaseRebuttal" parameterType="BaseRebuttal">
+        insert into base_rebuttal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rebuttalId != null">rebuttal_id,</if>
+            <if test="articleId != null">article_id,</if>
+            <if test="articleName != null">article_name,</if>
+            <if test="acceptCode != null">accept_code,</if>
+            <if test="acceptLabel != null">accept_label,</if>
+            <if test="rebuttalMessage != null">rebuttal_message,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rebuttalId != null">#{rebuttalId},</if>
+            <if test="articleId != null">#{articleId},</if>
+            <if test="articleName != null">#{articleName},</if>
+            <if test="acceptCode != null">#{acceptCode},</if>
+            <if test="acceptLabel != null">#{acceptLabel},</if>
+            <if test="rebuttalMessage != null">#{rebuttalMessage},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseRebuttal" parameterType="BaseRebuttal">
+        update base_rebuttal
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleId != null">article_id = #{articleId},</if>
+            <if test="articleName != null">article_name = #{articleName},</if>
+            <if test="acceptCode != null">accept_code = #{acceptCode},</if>
+            <if test="acceptLabel != null">accept_label = #{acceptLabel},</if>
+            <if test="rebuttalMessage != null">rebuttal_message = #{rebuttalMessage},</if>
+        </trim>
+        where rebuttal_id = #{rebuttalId}
+    </update>
+
+    <delete id="deleteBaseRebuttalByRebuttalId" parameterType="Long">
+        delete from base_rebuttal where rebuttal_id = #{rebuttalId}
+    </delete>
+
+    <delete id="deleteBaseRebuttalByRebuttalIds" parameterType="String">
+        delete from base_rebuttal where rebuttal_id in 
+        <foreach item="rebuttalId" collection="array" open="(" separator="," close=")">
+            #{rebuttalId}
+        </foreach>
+    </delete>
+</mapper>
